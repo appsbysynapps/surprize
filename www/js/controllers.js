@@ -10,8 +10,8 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
     //});
 })
 
-.controller('HomeCtrl', function ($scope, Prizes) {
-    
+.controller('HomeCtrl', function ($scope, Prizes, Auth) {
+    $scope.playlists = Prizes.getPersonPrize(Auth.auth.$getAuth().uid);
 })
 
 .controller('PrizeCtrl', function ($scope, $stateParams) {})
