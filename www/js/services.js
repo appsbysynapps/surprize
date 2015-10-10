@@ -6,49 +6,88 @@ angular.module('starter.services', ['firebase'])
     var prizes = $firebaseArray(ref);
     var factory = {};
 
-    factory.newDeck = function(deck,callback) {
-        decks.$add({
-            name: deck.name,
-            cards: {}
+    factory.newPrize = function(text,image,money,senderID,recipientID,callback) {
+        prizes.$add({
+            text: text,
+            image: image,
+            money: money,
+            senderID: senderID,
+            recipientID: ecipientID,
+            date: date,
+            read: false,
         }).then(callback);
     };
 
-    factory.addCards = function(ref2, newCards, callback) { //ref2 = /decks/:deckid
-        var cards = $firebaseArray(ref2.child("cards"));
-        angular.forEach(newCards, function(card) {
-            cards.$add({
-                left: card.left,
-                term: card.term,
-                right: card.right
-            }).then(callback);
-        })
-    }
-
-    factory.generateCard = function(term, sentence) {
-        var i = sentence.indexOf(term)
-        card = {}
-        card.left = sentence.substring(0,i);
-        card.term = term;
-        card.right = sentence.substring(i+term.length);
-        return card;
-    }
-
-
-    factory.getDeck = function(deckID) {
-        angular.forEach(decks, function(deck) {
-            if(deck.$id==deckID) {
-                return deck;
+    factory.getPrize = function(prizeID) {
+        return prizes[prizeID];
+    };
+    
+    factory.readPrize(prize) {
+        prize.read = true;
+        prizes.$save(prize);
+        
+    };
+    
+    factory.getPersonPrizes = function(personID) {
+        var personPrizes = [];
+        angular.forEach(prizes, function(prize) {
+            if(event.personID==personID) {
+                personPrizes.push(event);
             }
         });
+        return personPrizes;
     }
+    
+    return factory;
+})
 
-    factory.getCards = function(deckID) {
-        return $firebaseArray(new Firebase("https://memoraize.firebaseio.com/decks/"+deckID+"/cards"));
-    }
+.factory('People', function($firebase, $firebaseArray, Events) {
 
-    factory.saveDeck = function(deck,callback) {
-        decks.$save(deck).then(callback);
-    }
-    factory.decks = decks;
+    var ref = new Firebase("https://surprize.firebaseio.com/people");
+    var people = $firebaseArray(ref);
+    var factory = {};
+
+    factory.newPerson = function(name,username,password,callback) {
+        prizes.$add({
+            name: name,
+            username: username,
+            password: password,
+        }).then(callback);
+    };
+    
+    factory.getPerson = function(personID) {
+        return people[personID];
+    };
+        
+    return factory;
+})
+
+.factory('Events', function($firebase, $firebaseArray) {
+
+    var ref = new Firebase("https://surprize.firebaseio.com/events");
+    var events = $firebaseArray(ref);
+    var factory = {};
+
+    factory.newEvent = function(name,personID,callback) {
+        events.$add({
+            name: name,
+            personID: personID,
+        }).then(callback);
+    };
+    
+    factory.getEvent = function(eventID) {
+        return events[eventID];
+    };
+    
+    factory.getPersonEvents = function(personID) {
+        var personEvents = [];
+        angular.forEach(events, function(event) {
+            if((event.personID+"")==(personID+"") || event.personID=="") {
+                personEvents.push(event);
+            }
+        });
+        return personEvents;
+    };
+    
     return factory;
 })
