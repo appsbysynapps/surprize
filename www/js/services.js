@@ -1,18 +1,24 @@
 angular.module('starter.services', ['firebase'])
 
 .factory('Auth', function ($firebase, $firebaseAuth, $state, People) {
-    console.log('poop');
     var ref = new Firebase("https://surprize.firebaseio.com");
     var factory = {};
 
     factory.auth = $firebaseAuth(ref);
     factory.login = function (service) {
-        console.log('lurb meh');
         ref.authWithOAuthPopup(service, function (error, authData) {
             if (error) {
                 console.log("Login Failed!", error);
             } else {
-                People.newPerson(factory.auth.$getAuth().uid, function () {
+                var firstName = '';
+                if (service === 'google') {
+                    firstName = factory.auth.$getAuth().google.displayName;
+                } else if (service === 'facebook') {
+                    firstName = factory.auth.$getAuth().facebook.displayName;
+                } else if (service === 'twitter') {
+                    homeCtrl.firstName = factory.auth.$getAuth().twitter.displayName;
+                }
+                People.newPerson(factory.auth.$getAuth().uid, firstName, function () {
                     $state.go('app.home');
                 })
             }
@@ -68,7 +74,7 @@ angular.module('starter.services', ['firebase'])
 
     var ref = new Firebase("https://surprize.firebaseio.com/events");
     var factory = {};
-    
+
     factory.events = $firebaseArray(ref);
 
     factory.newEvent = function (name, personID, callback) {
@@ -101,10 +107,11 @@ angular.module('starter.services', ['firebase'])
     var factory = {};
     factory.people = $firebaseArray(ref);
 
-    factory.newPerson = function (name, callback) {
-        factory.people.$add({
-            name: name,
-        }).then(callback);
+    factory.newPerson = function (personID, name, callback) {
+        var ref2 = new Firebase("https://surprize.firebaseio.com/people/" + personID);
+        ref2.set({
+            name: name
+        });
     };
 
     factory.getPerson = function (personID) {
