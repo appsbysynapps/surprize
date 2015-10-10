@@ -23,6 +23,10 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
   });
 })
 
+.config(function($ionicMaterialConfigProvider) {
+  $ionicMaterialConfigProvider.enableForAllPlatforms();
+})
+
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
