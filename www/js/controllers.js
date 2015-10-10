@@ -10,41 +10,16 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
     //});
 })
 
-.controller('HomeCtrl', function ($scope) {
-    $scope.playlists = [
-        {
-            title: 'Reggae',
-            id: 1
-        },
-        {
-            title: 'Chill',
-            id: 2
-        },
-        {
-            title: 'Dubstep',
-            id: 3
-        },
-        {
-            title: 'Indie',
-            id: 4
-        },
-        {
-            title: 'Rap',
-            id: 5
-        },
-        {
-            title: 'Cowbell',
-            id: 6
-        }
-  ];
+.controller('HomeCtrl', function ($scope, Prizes) {
+    
 })
 
 .controller('PrizeCtrl', function ($scope, $stateParams) {})
 
 .controller('SendCtrl', function ($scope, $stateParams, $cordovaCamera, People) {
     $scope.imgsource = 'nosourceyet';
-    $scope.pictureTaken=false;
-    
+    $scope.pictureTaken = false;
+
     $scope.takePicture = function () {
         ionic.Platform.ready(function () {
             var options = {

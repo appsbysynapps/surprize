@@ -1,10 +1,32 @@
 angular.module('starter.services', ['firebase'])
 
+.factory('Auth', function($firebaseAuth, People){
+    var ref = new Firebase("https://surprize.firebaseio.com/people");
+    var factory = {};
+    
+    factory.auth = $firebaseAuth(ref);
+    factory.login = function(service) {
+        ref.authWithOAuthPopup(service, function(error, authData) {
+            if (error) {
+                console.log("Login Failed!", error);
+                authCtrl.error=error;
+            } else {
+                People.newPerson(auth.$getAuth().uid, function() {
+                    $state.go('app.home');
+                })
+            }
+        });
+    }
+    
+    return factory;
+})
+
 .factory('Prizes', function($firebase, $firebaseArray) {
 
     var ref = new Firebase("https://surprize.firebaseio.com/prizes");
-    var prizes = $firebaseArray(ref);
     var factory = {};
+    
+    factory.prizes = $firebaseArray(ref);
 
     factory.newPrize = function(text,image,money,senderID,recipientID,callback) {
         prizes.$add({
@@ -44,15 +66,13 @@ angular.module('starter.services', ['firebase'])
 .factory('People', function($firebase, $firebaseArray, Events) {
 
     var ref = new Firebase("https://surprize.firebaseio.com/people");
-    var people = $firebaseArray(ref);
     var factory = {};
+    factory.people = $firebaseArray(ref);
 
-    factory.newPerson = function(name,username,password,callback) {
-        prizes.$add({
+    factory.newPerson = function(name,callback) {
+        people.$add({
             name: name,
-            username: username,
-            password: password,
-        }).then(callback);
+        }).then(function);
     };
     
     factory.getPerson = function(personID) {
@@ -65,8 +85,8 @@ angular.module('starter.services', ['firebase'])
 .factory('Events', function($firebase, $firebaseArray) {
 
     var ref = new Firebase("https://surprize.firebaseio.com/events");
-    var events = $firebaseArray(ref);
     var factory = {};
+    factory.events = $firebaseArray(ref);
 
     factory.newEvent = function(name,personID,callback) {
         events.$add({
