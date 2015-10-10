@@ -2,9 +2,9 @@ angular.module('starter.services', ['firebase'])
 
 .factory('Auth', function($firebaseAuth, People){
     var ref = new Firebase("https://surprize.firebaseio.com/people");
-    var auth = $firebaseAuth(ref);
     var factory = {};
     
+    factory.auth = $firebaseAuth(ref);
     factory.login = function(service) {
         ref.authWithOAuthPopup(service, function(error, authData) {
             if (error) {
@@ -17,6 +17,8 @@ angular.module('starter.services', ['firebase'])
             }
         });
     }
+    
+    return factory;
 })
 
 .factory('Prizes', function($firebase, $firebaseArray) {
