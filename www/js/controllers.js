@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ionic'])
+angular.module('starter.controllers', ['ngCordova', 'ionic', 'starter.services'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
@@ -46,7 +46,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
     $scope.friends = People.people;
 })
 
-.controller('LoginCtrl', function ($scope, $stateParams) {
+.controller('LoginCtrl', function ($scope, $stateParams, Auth) {
     /*
     // Form data for the login modal
       $scope.loginData = {};
@@ -80,4 +80,6 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
       };
     
     */
+    
+    $scope.auth = Auth;
 });

@@ -4,13 +4,13 @@
         <h1>Welcome to Surprize.</h1>
         <p>Let's login:</p>
         
-        <button class="button button-block button-assertive" ng-click="authCtrl.loginGoogle()">
+        <button class="button button-block button-assertive" ng-click="auth.login('google')">
             <i class="icon ion-social-google"></i> Sign in with Google
         </button>
         <button class="button button-block button-calm" ng-click="auth.login('twitter')">
             <i class="icon ion-social-twitter"></i> Sign in with Twitter
         </button>
-        <button class="button button-block button-positive" ng-click="authCtrl.loginFacebook()">
+        <button class="button button-block button-positive" ng-click="auth.login('facebook')">
             <i class="icon ion-social-facebook"></i> Sign in with Facebook
         </button>
 
