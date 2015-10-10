@@ -41,7 +41,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
 
 .controller('PrizeCtrl', function ($scope, $stateParams) {})
 
-.controller('SendCtrl', function ($scope, $stateParams, $cordovaCamera) {
+.controller('SendCtrl', function ($scope, $stateParams, $cordovaCamera, People) {
     $scope.imgsource = 'nosourceyet';
     $scope.pictureTaken=false;
     
@@ -67,11 +67,9 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
             });
         });
     };
+    
+    $scope.friends = People.people;
 })
-
-.controller('DateCtrl', function ($scope, $stateParams) {})
-
-.controller('FriendsCtrl', function ($scope, $stateParams) {})
 
 .controller('LoginCtrl', function ($scope, $stateParams) {
     /*

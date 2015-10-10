@@ -1,5 +1,17 @@
 <ion-view view-title="Friends">
-  <ion-content>
-    <h1>Friends</h1>
-  </ion-content>
+    <ion-content padding=true>
+        <h1>Friends</h1>
+        <h2>choose a friend for your present!</h2>
+        <div class="list">
+
+            <label ng-repeat="person in friends" class="item item-radio">
+                <input type="radio" name="group">
+                <div class="item-content">
+                    {{person.name}}
+                </div>
+                <i class="radio-icon ion-happy icon-energized"></i>
+            </label>
+            
+        </div>
+    </ion-content>
 </ion-view>
