@@ -1,39 +1,79 @@
-angular.module('starter.controllers', ['ngCordova'])
+angular.module('starter.controllers', ['ngCordova', 'ionic'])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 })
 
-.controller('HomeCtrl', function($scope) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
+.controller('HomeCtrl', function ($scope) {
+    $scope.playlists = [
+        {
+            title: 'Reggae',
+            id: 1
+        },
+        {
+            title: 'Chill',
+            id: 2
+        },
+        {
+            title: 'Dubstep',
+            id: 3
+        },
+        {
+            title: 'Indie',
+            id: 4
+        },
+        {
+            title: 'Rap',
+            id: 5
+        },
+        {
+            title: 'Cowbell',
+            id: 6
+        }
   ];
 })
 
-.controller('PrizeCtrl', function($scope, $stateParams) {
+.controller('PrizeCtrl', function ($scope, $stateParams) {})
+
+.controller('SendCtrl', function ($scope, $stateParams, $cordovaCamera) {
+    $scope.imgsource = 'nosourceyet';
+    $scope.pictureTaken=false;
+    
+    $scope.takePicture = function () {
+        ionic.Platform.ready(function () {
+            var options = {
+                quality: 75,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: true,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 400,
+                targetHeight: 400,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false,
+                correctOrientation: true
+            };
+            $cordovaCamera.getPicture(options).then(function (imageData) {
+                $scope.imgsource = "data:image/jpeg;base64," + imageData;
+                $scope.pictureTaken = true;
+            }, function (err) {
+                // error
+            });
+        });
+    };
 })
 
-.controller('SendCtrl', function($scope, $stateParams) {
-})
+.controller('DateCtrl', function ($scope, $stateParams) {})
 
-.controller('DateCtrl', function($scope, $stateParams) {
-})
+.controller('FriendsCtrl', function ($scope, $stateParams) {})
 
-.controller('FriendsCtrl', function($scope, $stateParams) {
-})
-
-.controller('LoginCtrl', function($scope, $stateParams) {
+.controller('LoginCtrl', function ($scope, $stateParams) {
     /*
     // Form data for the login modal
       $scope.loginData = {};
