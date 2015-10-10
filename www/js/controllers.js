@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ngCordova', 'ionic', 'starter.services'])
+angular.module('starter.controllers', ['ngCordova', 'ionic'])
 
 .controller('AppCtrl', function ($scope, $ionicModal, $timeout) {
 
@@ -11,7 +11,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic', 'starter.services']
 })
 
 .controller('HomeCtrl', function ($scope, Prizes, Auth) {
-    $scope.playlists = Prizes.getPersonPrize(Auth.auth.$getAuth().uid);
+    $scope.prizes = Prizes.getPersonPrizes(Auth.auth.$getAuth().uid);
 })
 
 .controller('PrizeCtrl', function ($scope, $stateParams) {})

@@ -2,7 +2,7 @@ angular.module('starter.services', ['firebase'])
 
 .factory('Auth', function ($firebase, $firebaseAuth, $state, People) {
     console.log('poop');
-    var ref = new Firebase("https://surprize.firebaseio.com/people");
+    var ref = new Firebase("https://surprize.firebaseio.com");
     var factory = {};
 
     factory.auth = $firebaseAuth(ref);
@@ -11,9 +11,8 @@ angular.module('starter.services', ['firebase'])
         ref.authWithOAuthPopup(service, function (error, authData) {
             if (error) {
                 console.log("Login Failed!", error);
-                authCtrl.error = error;
             } else {
-                People.newPerson(auth.$getAuth().uid, function () {
+                People.newPerson(factory.auth.$getAuth().uid, function () {
                     $state.go('app.home');
                 })
             }
@@ -31,7 +30,7 @@ angular.module('starter.services', ['firebase'])
     factory.prizes = $firebaseArray(ref);
 
     factory.newPrize = function (text, image, money, senderID, recipientID, callback) {
-        prizes.$add({
+        factory.prizes.$add({
             text: text,
             image: image,
             money: money,
@@ -43,18 +42,18 @@ angular.module('starter.services', ['firebase'])
     };
 
     factory.getPrize = function (prizeID) {
-        return prizes[prizeID];
+        return factory.prizes[prizeID];
     };
 
     factory.readPrize = function (prize) {
         prize.read = true;
-        prizes.$save(prize);
+        factory.prizes.$save(prize);
 
     };
 
     factory.getPersonPrizes = function (personID) {
         var personPrizes = [];
-        angular.forEach(prizes, function (prize) {
+        angular.forEach(factory.prizes, function (prize) {
             if (event.personID == personID) {
                 personPrizes.push(event);
             }
@@ -70,20 +69,22 @@ angular.module('starter.services', ['firebase'])
     var ref = new Firebase("https://surprize.firebaseio.com/events");
     var factory = {};
     
+    factory.events = $firebaseArray(ref);
+
     factory.newEvent = function (name, personID, callback) {
-        events.$add({
+        factory.events.$add({
             name: name,
             personID: personID,
         }).then(callback);
     };
 
     factory.getEvent = function (eventID) {
-        return events[eventID];
+        return factory.events[eventID];
     };
 
     factory.getPersonEvents = function (personID) {
         var personEvents = [];
-        angular.forEach(events, function (event) {
+        angular.forEach(factory.events, function (event) {
             if ((event.personID + "") == (personID + "") || event.personID == "") {
                 personEvents.push(event);
             }
@@ -101,13 +102,13 @@ angular.module('starter.services', ['firebase'])
     factory.people = $firebaseArray(ref);
 
     factory.newPerson = function (name, callback) {
-        people.$add({
+        factory.people.$add({
             name: name,
         }).then(callback);
     };
 
     factory.getPerson = function (personID) {
-        return people[personID];
+        return factory.people[personID];
     };
 
     return factory;
