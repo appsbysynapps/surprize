@@ -37,7 +37,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
     views: {
       'menuContent': {
         templateUrl: 'templates/date.html',
-        controller: 'DateCtrl'
+        controller: 'SendCtrl'
       }
     }
   })
@@ -57,7 +57,7 @@ angular.module('starter', ['ionic','ionic.service.core', 'starter.controllers', 
       views: {
         'menuContent': {
           templateUrl: 'templates/friends.html',
-          controller: 'FriendsCtrl'
+          controller: 'SendCtrl'
         }
       }
     })
