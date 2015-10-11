@@ -11,6 +11,7 @@ angular.module('starter.controllers', ['ngCordova', 'ionic'])
 })
 
 .controller('HomeCtrl', function ($scope, Prizes, Auth) {
+    console.log(Auth.auth.$getAuth().uid);
     $scope.prizes = Prizes.getPersonPrizes(Auth.auth.$getAuth().uid);
 })
 

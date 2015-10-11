@@ -1,6 +1,6 @@
-angular.module('starter.services', ['firebase'])
+angular.module('starter.services', ['firebase', 'ionic'])
 
-.factory('Auth', function ($firebase, $firebaseAuth, $state, People) {
+.factory('Auth', function ($firebase, $firebaseAuth, $state, People, $ionicHistory) {
     var ref = new Firebase("https://surprize.firebaseio.com");
     var factory = {};
 
@@ -19,6 +19,9 @@ angular.module('starter.services', ['firebase'])
                     homeCtrl.firstName = factory.auth.$getAuth().twitter.displayName;
                 }
                 People.newPerson(factory.auth.$getAuth().uid, firstName, function () {
+                    $ionicHistory.nextViewOptions({
+                        disableBack: true
+                    });
                     $state.go('app.home');
                 })
             }
@@ -59,10 +62,17 @@ angular.module('starter.services', ['firebase'])
 
     factory.getPersonPrizes = function (personID) {
         var personPrizes = [];
-        angular.forEach(factory.prizes, function (prize) {
-            if (event.personID == personID) {
-                personPrizes.push(event);
-            }
+        console.log(factory.prizes.length);
+        factory.prizes.$loaded().then(function () {
+            angular.forEach(factory.prizes, function (prize) {
+                console.log('loub');
+                console.log(personID);
+                console.log(prize.recipientID);
+                console.log(prize);
+                if (prize.recipientID == personID) {
+                    personPrizes.push(prize);
+                }
+            });
         });
         return personPrizes;
     }
@@ -112,6 +122,7 @@ angular.module('starter.services', ['firebase'])
         ref2.set({
             name: name
         });
+        callback();
     };
 
     factory.getPerson = function (personID) {
